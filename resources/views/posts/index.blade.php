@@ -10,5 +10,12 @@
                 <button type="submit">削除</button>
             </form>
         @endif
+        <form action="{{ route('post.like', $post->id) }}" method="post">
+            @csrf
+            @method('POST')
+            <button type="submit" class="{{ $post->likes()->where('user_id', auth()->user()->id)->count() > 0 ? 'liked' : '' }}">
+                ❤ {{ $post->likes()->count() }}
+            </button>
+        </form>
     </div>
 @endforeach
