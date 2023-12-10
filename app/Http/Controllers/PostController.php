@@ -5,6 +5,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use App\Models\Like;
 
 class PostController extends Controller
 {
@@ -53,4 +54,12 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
     }
 
+    public function toggleLike(Post $post)
+    {
+        $user = auth()->user();
+        if ($user->likes()->toggle($post)) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
 }
